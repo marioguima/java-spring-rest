@@ -8,12 +8,13 @@ import javax.persistence.TypedQuery;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.guimassolucoes.guimasfood.domain.model.Cozinha;
 import br.com.guimassolucoes.guimasfood.domain.repository.CozinhaRepository;
 
-@Component
+@Repository
 public class CozinhaRepositoryImpl implements CozinhaRepository {
 
 	@PersistenceContext
