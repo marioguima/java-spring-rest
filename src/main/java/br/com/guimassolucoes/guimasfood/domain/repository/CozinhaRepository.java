@@ -8,6 +8,8 @@ public interface CozinhaRepository {
 
 	public List<Cozinha> todas();
 
+	public List<Cozinha> consultarPorNome(String nome);
+
 	public Cozinha porId(Long id);
 
 	public Cozinha salvar(Cozinha cozinha);

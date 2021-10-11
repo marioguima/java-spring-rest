@@ -21,6 +21,11 @@ public class CozinhaService {
 	public List<Cozinha> todas() {
 		return cozinhaRepository.todas();
 	}
+	
+	public List<Cozinha> consultarPorNome(String nome) {
+		return cozinhaRepository.consultarPorNome(nome);
+	}
+
 
 	public Cozinha porId(Long id) {
 		return cozinhaRepository.porId(id);
