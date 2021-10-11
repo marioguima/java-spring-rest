@@ -28,12 +28,16 @@ public class TesteController {
 	 * 
 	 * /teste/cozinhas/por-nome/nome=Tailandeza
 	 * 
+	 * Ao utilizar Strping Data não precisa mais utilizar @RquestParam
+	 * 
+	 * Por padrão ele passa o nome da variável como parâmetro na chamada
+	 * 
 	 * @param nome
 	 * @return
 	 */
-//	@GetMapping("/cozinhas/por-nome")
-//	public List<Cozinha> cozinhasPorNome(@RequestParam String nome) {
-//		return cozinhaService.consultarPorNome(nome);
-//	}
+	@GetMapping("/cozinhas/por-nome")
+	public List<Cozinha> cozinhasPorNome(String nome) {
+		return cozinhaService.consultarPorNome(nome);
+	}
 
 }

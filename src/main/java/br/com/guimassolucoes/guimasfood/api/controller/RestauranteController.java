@@ -24,7 +24,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.guimassolucoes.guimasfood.domain.exception.EntidadeEmUsoException;
 import br.com.guimassolucoes.guimasfood.domain.exception.EntidadeNaoEncontradaException;
-import br.com.guimassolucoes.guimasfood.domain.model.Cidade;
 import br.com.guimassolucoes.guimasfood.domain.model.Restaurante;
 import br.com.guimassolucoes.guimasfood.domain.service.RestauranteService;
 
