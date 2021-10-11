@@ -1,11 +1,11 @@
 package br.com.guimassolucoes.guimasfood.api.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.guimassolucoes.guimasfood.domain.model.Cozinha;
@@ -37,7 +37,12 @@ public class TesteController {
 	 */
 	@GetMapping("/cozinhas/por-nome")
 	public List<Cozinha> cozinhasPorNome(String nome) {
-		return cozinhaService.consultarPorNome(nome);
+		return cozinhaService.cozinhasPorNome(nome);
+	}
+	
+	@GetMapping("/cozinhas/unica-por-nome")
+	public Optional<Cozinha> cozinhaPorNome(String nome) {
+		return cozinhaService.cozinhaPorNome(nome);
 	}
 
 }

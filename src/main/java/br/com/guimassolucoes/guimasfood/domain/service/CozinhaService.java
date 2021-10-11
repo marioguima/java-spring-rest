@@ -23,10 +23,13 @@ public class CozinhaService {
 		return cozinhaRepository.findAll();
 	}
 	
-	public List<Cozinha> consultarPorNome(String nome) {
-		return cozinhaRepository.nomeCozinha(nome);
+	public List<Cozinha> cozinhasPorNome(String nome) {
+		return cozinhaRepository.findTodasByNomeCozinha(nome);
 	}
-
+	
+	public Optional<Cozinha> cozinhaPorNome(String nome) {
+		return cozinhaRepository.findByNomeCozinha(nome);
+	}
 
 	public Optional<Cozinha> porId(Long id) {
 		return cozinhaRepository.findById(id);
