@@ -1,6 +1,7 @@
 package br.com.guimassolucoes.guimasfood.api.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +36,10 @@ public class EstadoController {
 
 	@GetMapping("/{estadoId}")
 	private ResponseEntity<Estado> porId(@PathVariable Long estadoId) {
-		Estado estado = estadoService.porId(estadoId);
+		Optional<Estado> estado = estadoService.porId(estadoId);
 
-		if (estado != null) {
-			return ResponseEntity.ok(estado);
+		if (estado.isPresent()) {
+			return ResponseEntity.ok(estado.get());
 		}
 
 		return ResponseEntity.notFound().build();
@@ -52,13 +53,13 @@ public class EstadoController {
 
 	@PutMapping("/{estadoId}")
 	public ResponseEntity<Estado> atualizar(@PathVariable Long estadoId, @RequestBody Estado estado) {
-		Estado estadoWorkBase = estadoService.porId(estadoId);
+		Optional<Estado> estadoWorkBase = estadoService.porId(estadoId);
 
-		if (estadoWorkBase != null) {
-			BeanUtils.copyProperties(estado, estadoWorkBase, "id");
+		if (estadoWorkBase.isPresent()) {
+			BeanUtils.copyProperties(estado, estadoWorkBase.get(), "id");
 
-			estadoWorkBase = estadoService.salvar(estadoWorkBase);
-			return ResponseEntity.ok(estadoWorkBase);
+			Estado estadoSalvo = estadoService.salvar(estadoWorkBase.get());
+			return ResponseEntity.ok(estadoSalvo);
 		}
 		return ResponseEntity.notFound().build();
 	}

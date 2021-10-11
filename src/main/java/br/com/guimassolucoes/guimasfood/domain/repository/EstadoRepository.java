@@ -1,17 +1,11 @@
 package br.com.guimassolucoes.guimasfood.domain.repository;
 
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.guimassolucoes.guimasfood.domain.model.Estado;
 
-public interface EstadoRepository {
-	
-	public List<Estado> todos();
-
-	public Estado porId(Long id);
-
-	public Estado salvar(Estado estado);
-
-	public void remover(Long estadoId);
+@ResponseBody
+public interface EstadoRepository extends JpaRepository<Estado, Long> {	
 
 }

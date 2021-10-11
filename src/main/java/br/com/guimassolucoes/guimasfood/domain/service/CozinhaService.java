@@ -1,6 +1,7 @@
 package br.com.guimassolucoes.guimasfood.domain.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -19,25 +20,25 @@ public class CozinhaService {
 	CozinhaRepository cozinhaRepository;
 
 	public List<Cozinha> todas() {
-		return cozinhaRepository.todas();
+		return cozinhaRepository.findAll();
 	}
 	
-	public List<Cozinha> consultarPorNome(String nome) {
-		return cozinhaRepository.consultarPorNome(nome);
-	}
+//	public List<Cozinha> consultarPorNome(String nome) {
+//		return cozinhaRepository.consultarPorNome(nome);
+//	}
 
 
-	public Cozinha porId(Long id) {
-		return cozinhaRepository.porId(id);
+	public Optional<Cozinha> porId(Long id) {
+		return cozinhaRepository.findById(id);
 	}
 
 	public Cozinha salvar(Cozinha cozinha) {
-		return cozinhaRepository.salvar(cozinha);
+		return cozinhaRepository.save(cozinha);
 	}
 
 	public void remover(Long id) {
 		try {
-			cozinhaRepository.remover(id);
+			cozinhaRepository.deleteById(id);
 
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntidadeNaoEncontradaException(

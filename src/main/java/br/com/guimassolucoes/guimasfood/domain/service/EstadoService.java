@@ -1,6 +1,7 @@
 package br.com.guimassolucoes.guimasfood.domain.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -19,20 +20,20 @@ public class EstadoService {
 	EstadoRepository estadoRepository;
 
 	public List<Estado> todos() {
-		return estadoRepository.todos();
+		return estadoRepository.findAll();
 	}
 
-	public Estado porId(Long id) {
-		return estadoRepository.porId(id);
+	public Optional<Estado> porId(Long id) {
+		return estadoRepository.findById(id);
 	}
 
 	public Estado salvar(Estado estado) {
-		return estadoRepository.salvar(estado);
+		return estadoRepository.save(estado);
 	}
 
 	public void remover(Long estadoId) {
 		try {
-			estadoRepository.remover(estadoId);
+			estadoRepository.deleteById(estadoId);
 
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntidadeNaoEncontradaException(

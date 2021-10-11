@@ -1,6 +1,7 @@
 package br.com.guimassolucoes.guimasfood.api.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +36,10 @@ public class CozinhaController {
 
 	@GetMapping("/{cozinhaId}")
 	private ResponseEntity<Cozinha> porId(@PathVariable Long cozinhaId) {
-		Cozinha cozinha = cozinhaService.porId(cozinhaId);
+		Optional<Cozinha> cozinha = cozinhaService.porId(cozinhaId);
 
-		if (cozinha != null) {
-			return ResponseEntity.ok(cozinha);
+		if (cozinha.isPresent()) {
+			return ResponseEntity.ok(cozinha.get());
 		}
 
 		return ResponseEntity.notFound().build();
@@ -52,13 +53,13 @@ public class CozinhaController {
 
 	@PutMapping("/{cozinhaId}")
 	public ResponseEntity<Cozinha> atualizar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinha) {
-		Cozinha cozinhaWorkBase = cozinhaService.porId(cozinhaId);
+		Optional<Cozinha> cozinhaWorkBase = cozinhaService.porId(cozinhaId);
 
-		if (cozinhaWorkBase != null) {
-			BeanUtils.copyProperties(cozinha, cozinhaWorkBase, "id");
+		if (cozinhaWorkBase.isPresent()) {
+			BeanUtils.copyProperties(cozinha, cozinhaWorkBase.get(), "id");
 
-			cozinhaWorkBase = salvar(cozinhaWorkBase);
-			return ResponseEntity.ok(cozinhaWorkBase);
+			Cozinha cozinhaSalva = salvar(cozinhaWorkBase.get());
+			return ResponseEntity.ok(cozinhaSalva);
 		}
 
 		return ResponseEntity.notFound().build();

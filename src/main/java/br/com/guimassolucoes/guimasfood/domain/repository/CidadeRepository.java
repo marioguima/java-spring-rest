@@ -1,17 +1,11 @@
 package br.com.guimassolucoes.guimasfood.domain.repository;
 
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import br.com.guimassolucoes.guimasfood.domain.model.Cidade;
 
-public interface CidadeRepository {
-
-	public List<Cidade> todos();
-
-	public Cidade porId(Long cidadeId);
-
-	public Cidade salvar(Cidade cidade);
-
-	public void remover(Long cidadeId);
+@Repository
+public interface CidadeRepository extends JpaRepository<Cidade, Long>{
 
 }

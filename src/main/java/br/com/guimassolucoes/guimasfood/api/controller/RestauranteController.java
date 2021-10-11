@@ -3,12 +3,14 @@ package br.com.guimassolucoes.guimasfood.api.controller;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import br.com.guimassolucoes.guimasfood.domain.exception.EntidadeEmUsoException;
 import br.com.guimassolucoes.guimasfood.domain.exception.EntidadeNaoEncontradaException;
+import br.com.guimassolucoes.guimasfood.domain.model.Cidade;
 import br.com.guimassolucoes.guimasfood.domain.model.Restaurante;
 import br.com.guimassolucoes.guimasfood.domain.service.RestauranteService;
 
@@ -38,10 +42,10 @@ public class RestauranteController {
 
 	@GetMapping("/{restauranteId}")
 	public ResponseEntity<Restaurante> porId(@PathVariable Long restauranteId) {
-		Restaurante restaurante = restauranteService.porId(restauranteId);
+		Optional<Restaurante> restaurante = restauranteService.porId(restauranteId);
 
-		if (restaurante != null) {
-			return ResponseEntity.ok(restaurante);
+		if (restaurante.isPresent()) {
+			return ResponseEntity.ok(restaurante.get());
 		}
 
 		return ResponseEntity.notFound().build();
@@ -62,13 +66,13 @@ public class RestauranteController {
 	@PutMapping("/{restauranteId}")
 	public ResponseEntity<?> atualizar(@PathVariable Long restauranteId, @RequestBody Restaurante restaurante) {
 		try {
-			Restaurante restauranteWorkBase = restauranteService.porId(restauranteId);
+			Optional<Restaurante> restauranteWorkBase = restauranteService.porId(restauranteId);
 
-			if (restauranteWorkBase != null) {
-				BeanUtils.copyProperties(restaurante, restauranteWorkBase, "id");
+			if (restauranteWorkBase.isPresent()) {
+				BeanUtils.copyProperties(restaurante, restauranteWorkBase.get(), "id");
 
-				restauranteService.salvar(restauranteWorkBase);
-				return ResponseEntity.ok(restauranteWorkBase);
+				Restaurante restauranteSalvo = restauranteService.salvar(restauranteWorkBase.get());
+				return ResponseEntity.ok(restauranteSalvo);
 			}
 
 			return ResponseEntity.notFound().build();
@@ -82,15 +86,15 @@ public class RestauranteController {
 	public ResponseEntity<?> atualizarParcial(@PathVariable Long restauranteId,
 			@RequestBody Map<String, Object> campoValor) {
 
-		Restaurante restauranteWorkBase = restauranteService.porId(restauranteId);
+		Optional<Restaurante> restauranteWorkBase = restauranteService.porId(restauranteId);
 
-		if (restauranteWorkBase == null) {
+		if (restauranteWorkBase.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
 
-		mergeCampos(campoValor, restauranteWorkBase);
+		mergeCampos(campoValor, restauranteWorkBase.get());
 
-		return atualizar(restauranteId, restauranteWorkBase);
+		return atualizar(restauranteId, restauranteWorkBase.get());
 	}
 
 	private void mergeCampos(Map<String, Object> campoValor, Restaurante restauranteDestino) {
@@ -107,6 +111,22 @@ public class RestauranteController {
 
 			ReflectionUtils.setField(field, restauranteDestino, novoValor);
 		});
+	}
+	
+	@DeleteMapping("/{restauranteId}")
+	public ResponseEntity<Restaurante> remover(@PathVariable Long restauranteId) {
+		try {
+			restauranteService.remover(restauranteId);
+
+			return ResponseEntity.noContent().build();
+
+		} catch (EntidadeNaoEncontradaException e) {
+			return ResponseEntity.notFound().build();
+
+		} catch (EntidadeEmUsoException e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).build();
+		}
+
 	}
 
 }

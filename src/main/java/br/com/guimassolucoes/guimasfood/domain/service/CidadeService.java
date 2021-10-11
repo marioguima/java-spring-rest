@@ -1,6 +1,7 @@
 package br.com.guimassolucoes.guimasfood.domain.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -23,30 +24,27 @@ public class CidadeService {
 	EstadoService estadoService;
 
 	public List<Cidade> todos() {
-		return cidadeRepository.todos();
+		return cidadeRepository.findAll();
 	}
 
-	public Cidade porId(Long cidadeId) {
-		return cidadeRepository.porId(cidadeId);
+	public Optional<Cidade> porId(Long cidadeId) {
+		return cidadeRepository.findById(cidadeId);
 	}
 
 	public Cidade salvar(Cidade cidade) {
 		Long estadoId = cidade.getEstado().getId();
-		Estado estado = estadoService.porId(estadoId);
-
-		if (estado == null) {
-			throw new EntidadeNaoEncontradaException(
-					String.format("Não existe cadastro de estado com código %d", estadoId));
-		}
+		Estado estado = estadoService.porId(estadoId).orElseThrow(() -> new EntidadeNaoEncontradaException(
+				String.format("Não existe cadastro de estado com código %d", estadoId)));
 
 		cidade.setEstado(estado);
 
-		return cidadeRepository.salvar(cidade);
+		return cidadeRepository.save(cidade);
+
 	}
 
 	public void remover(Long cidadeId) {
 		try {
-			cidadeRepository.remover(cidadeId);
+			cidadeRepository.deleteById(cidadeId);
 
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntidadeNaoEncontradaException(

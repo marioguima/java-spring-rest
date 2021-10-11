@@ -1,6 +1,7 @@
 package br.com.guimassolucoes.guimasfood.api.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +36,10 @@ public class CidadeController {
 
 	@GetMapping("/{cidadeId}")
 	public ResponseEntity<Cidade> porId(@PathVariable Long cidadeId) {
-		Cidade cidade = cidadeService.porId(cidadeId);
+		Optional<Cidade> cidade = cidadeService.porId(cidadeId);
 
-		if (cidade != null) {
-			return ResponseEntity.ok(cidade);
+		if (cidade.isPresent()) {
+			return ResponseEntity.ok(cidade.get());
 		}
 
 		return ResponseEntity.notFound().build();
@@ -60,13 +61,13 @@ public class CidadeController {
 	@PutMapping("/{cidadeId}")
 	public ResponseEntity<?> atualizar(@PathVariable Long cidadeId, @RequestBody Cidade cidade) {
 		try {
-			Cidade cidadeWorkBase = cidadeService.porId(cidadeId);
+			Optional<Cidade> cidadeWorkBase = cidadeService.porId(cidadeId);
 
-			if (cidadeWorkBase != null) {
-				BeanUtils.copyProperties(cidade, cidadeWorkBase, "id");
+			if (cidadeWorkBase.isPresent()) {
+				BeanUtils.copyProperties(cidade, cidadeWorkBase.get(), "id");
 
-				cidadeWorkBase = cidadeService.salvar(cidadeWorkBase);
-				return ResponseEntity.ok(cidadeWorkBase);
+				Cidade cidadeSalva = cidadeService.salvar(cidadeWorkBase.get());
+				return ResponseEntity.ok(cidadeSalva);
 			}
 
 			return ResponseEntity.notFound().build();
@@ -77,7 +78,7 @@ public class CidadeController {
 	}
 
 	@DeleteMapping("/{cidadeId}")
-	public ResponseEntity<Cidade> remover(Long cidadeId) {
+	public ResponseEntity<Cidade> remover(@PathVariable Long cidadeId) {
 		try {
 			cidadeService.remover(cidadeId);
 

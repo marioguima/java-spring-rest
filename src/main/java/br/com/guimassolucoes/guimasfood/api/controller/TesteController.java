@@ -31,9 +31,9 @@ public class TesteController {
 	 * @param nome
 	 * @return
 	 */
-	@GetMapping("/cozinhas/por-nome")
-	public List<Cozinha> cozinhasPorNome(@RequestParam String nome) {
-		return cozinhaService.consultarPorNome(nome);
-	}
+//	@GetMapping("/cozinhas/por-nome")
+//	public List<Cozinha> cozinhasPorNome(@RequestParam String nome) {
+//		return cozinhaService.consultarPorNome(nome);
+//	}
 
 }

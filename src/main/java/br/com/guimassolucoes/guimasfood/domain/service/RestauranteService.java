@@ -1,6 +1,7 @@
 package br.com.guimassolucoes.guimasfood.domain.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -23,25 +24,21 @@ public class RestauranteService {
 	CozinhaService cozinhaService;
 
 	public List<Restaurante> todos() {
-		return restauranteRepository.todos();
+		return restauranteRepository.findAll();
 	}
 
-	public Restaurante porId(Long id) {
-		return restauranteRepository.porId(id);
+	public Optional<Restaurante> porId(Long id) {
+		return restauranteRepository.findById(id);
 	}
 
 	public Restaurante salvar(Restaurante restaurante) {
 		Long cozinhaId = restaurante.getCozinha().getId();
-		Cozinha cozinha = cozinhaService.porId(cozinhaId);
-
-		if (cozinha == null) {
-			throw new EntidadeNaoEncontradaException(
-					String.format("Não existe cadastro de cozinha com código %d", cozinhaId));
-		}
+		Cozinha cozinha = cozinhaService.porId(cozinhaId).orElseThrow(() -> new EntidadeNaoEncontradaException(
+				String.format("Não existe cadastro de cozinha com código %d", cozinhaId)));
 
 		restaurante.setCozinha(cozinha);
 
-		return restauranteRepository.salvar(restaurante);
+		return restauranteRepository.save(restaurante);
 	}
 
 	public Restaurante alterar(Long restauranteId) {
@@ -50,7 +47,8 @@ public class RestauranteService {
 
 	public void remover(Long id) {
 		try {
-			restauranteRepository.remover(id);
+			restauranteRepository.deleteById(id);
+			
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntidadeNaoEncontradaException(
 					String.format("Não existe um cadastro de restaurante com o código %d", id));
