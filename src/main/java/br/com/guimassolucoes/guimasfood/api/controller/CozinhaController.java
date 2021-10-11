@@ -36,14 +36,16 @@ public class CozinhaController {
 	@GetMapping(value = "/{cozinhaId}")
 	private ResponseEntity<Cozinha> porId(@PathVariable Long cozinhaId) {
 		Cozinha cozinha = cozinhaService.porId(cozinhaId);
+
 		if (cozinha != null) {
 			return ResponseEntity.ok(cozinha);
 		}
+
 		return ResponseEntity.notFound().build();
 	}
 
-	@ResponseStatus(value = HttpStatus.CREATED)
 	@PostMapping
+	@ResponseStatus(value = HttpStatus.CREATED)
 	public Cozinha salvar(@RequestBody Cozinha cozinha) {
 		return cozinhaService.salvar(cozinha);
 	}

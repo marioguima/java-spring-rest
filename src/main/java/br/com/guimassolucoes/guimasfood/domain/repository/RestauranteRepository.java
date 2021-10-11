@@ -12,6 +12,6 @@ public interface RestauranteRepository {
 
 	public Restaurante salvar(Restaurante restaurante);
 
-	public void remover(Restaurante restaurante);
+	public void remover(Long restauranteId);
 
 }
