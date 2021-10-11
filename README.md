@@ -251,3 +251,151 @@ Na teoria, apenas o Nível 3 (quarto nível na verdade, porque começa em zero),
 > Nível 0: POX
 
 ***
+
+#### Nível 0 - POX (Plain Old XML)
+
+Este é o nível mais rudimentar
+
+O mercado realmente não considera que uma api nesse nível é considerada REST
+
+Uma API nesse nível de maturidade utiliza o protocolo HTTP apenas como mecanismo de transporte de dados
+
+Não usa os verbos e nem os status HTTP da forma correta e ainda podem usar o Get para fazer atualização, Put para recurar dados entre outras falhas de implementação, segundo o padrão REST
+
+Este tipo de api usa o modelo RPC (Remote Procedure Invocation)
+
+Geralmente esse tipo de API tem apenas um endpoint
+
+Mas não é o fato de ser transportado no formato XML que é o nível 0 de maturidade, porque isso pode ser implementado em json também
+
+#### Nível 1 - Recursos
+
+Existe o conceito de recurso mas os verbos são negligenciados
+
+Ex.
+
+```
+POST /produtos HTTP/1.1
+```
+
+```
+<cadastrarProduto>
+	<nome>Mackbook Pro 13</nome>
+	<preco>15000</preco>
+</cadastrarProduto>
+```
+
+```
+POST /produtos/984 HTTP/1.1
+```
+
+```
+<alterarProduto>
+	<nome>Mackbook Pro 13</nome>
+	<preco>15000</preco>
+</alterarProduto>
+```
+
+Existe o conceito de recurso mas ainda se utiliza o corpo da mensagem para controlar as operação ao invés dos verbos
+
+Nesse caso está sendo utilizado cadastrarProduto e alterarProduto ao invés de POST e PUT, respectivamente
+
+#### Nível 2 - Verbos HTTP
+
+Nesse nível a API já utiliza os verbos HTTP corretamente assim como os status HTTP
+
+Ex.
+
+```
+POST /produtos HTTP/1.1
+```
+
+```
+<produto>
+	<nome>Mackbook Pro 13</nome>
+	<preco>15000</preco>
+</produto>
+```
+
+```
+PUT /produtos/984 HTTP/1.1
+```
+
+```
+<produto>
+	<nome>Mackbook Pro 13</nome>
+	<preco>15000</preco>
+</produto>
+```
+
+Lembrando que o formato do payload não define o nível de maturidade
+
+Veja o mesmo exemplo em json
+
+```
+POST /produtos HTTP/1.1
+```
+
+```
+{
+	"nome": "Mackbook Pro 13",
+	"preco": "15000"
+}
+```
+
+```
+PUT /produtos/984 HTTP/1.1
+```
+
+```
+{
+	"nome": "Mackbook Pro 13",
+	"preco": "15000"
+}
+```
+
+E para estar no Nível 2 a API também precisa ter os status das respostas mapeadas de forma correta, coerente com a resposta
+
+```
+HTTP/1.1 201 Created
+```
+
+```
+{
+	"id": 987,
+	"nome": "Mackbook Pro 13",
+	"preco": "15000"
+}
+```
+
+```
+HTTP/1.1 404 Not Found
+```
+
+#### Nível 3 - HATEOAS
+
+**H**ypertext **A**s **T**he **E**ngine **O**f **A**pplication **S**tate
+
+Se lê (reitiaãs)
+
+A idéia principal é ter a navegação dos caminhos que o usuário pode seguir após executar uma ação na API, como links de navegação de uma página web
+
+```
+GET /produtos/984 HTTP/1.1
+```
+
+```
+HTTP/1.1 200 OK
+```
+
+```
+{
+	"id": 984,
+	"nome": "Mackbook Pro 13",
+	"preco": "15000",
+	"links": {
+		"inativar": "/produtos/984",
+		"fornecedor": "/fornecedores/34",
+	}
+}
+```
