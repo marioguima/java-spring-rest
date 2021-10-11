@@ -233,3 +233,21 @@ Utilizado para retornar apenas o cabeçalho
 . OPTIONS
 
 Utilizado para obter a lista de métodos/verbos que o recurso disponibiliza
+
+***
+
+### Modelo de Maturidade de Richardson
+
+Segundo Richardson existem 4 níveis de maturidade de uma API onde, dependendo desse nível, podemos considerá-la uma REST API ou não
+
+Na teoria, apenas o Nível 3 (quarto nível na verdade, porque começa em zero), pode ser considerada como REST
+
+>>>> Nível 3: HATEOAS
+
+>>> Nível 2: Verbos HTTP
+
+>> Nível 1: Recursos
+
+> Nível 0: POX
+
+***

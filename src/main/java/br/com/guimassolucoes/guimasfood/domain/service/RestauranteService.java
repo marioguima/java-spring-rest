@@ -24,11 +24,11 @@ public class RestauranteService {
 
 	public List<Restaurante> todos() {
 		return restauranteRepository.todos();
-	};
+	}
 
 	public Restaurante porId(Long id) {
 		return restauranteRepository.porId(id);
-	};
+	}
 
 	public Restaurante salvar(Restaurante restaurante) {
 		Long cozinhaId = restaurante.getCozinha().getId();
@@ -38,12 +38,12 @@ public class RestauranteService {
 			throw new EntidadeNaoEncontradaException(
 					String.format("Não existe cadastro de cozinha com código %d", cozinhaId));
 		}
-		
+
 		restaurante.setCozinha(cozinha);
 
 		return restauranteRepository.salvar(restaurante);
-	};
-	
+	}
+
 	public Restaurante alterar(Long restauranteId) {
 		return null;
 	}
@@ -60,6 +60,6 @@ public class RestauranteService {
 					String.format("Restaurante de código %d não pode ser removida, porque está em uso", id));
 
 		}
-	};
+	}
 
 }

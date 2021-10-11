@@ -33,3 +33,5 @@ insert into tab_estados (id, nome) values (24, 'Santa Catarina');
 insert into tab_estados (id, nome) values (25, 'Sergipe');
 insert into tab_estados (id, nome) values (26, 'São Paulo');
 insert into tab_estados (id, nome) values (27, 'Tocantins');
+
+insert into tab_cidades (id, nome, estado_id) values (1, 'Rio de Janeiro', 19);

@@ -33,7 +33,7 @@ public class CozinhaController {
 		return cozinhaService.todas();
 	}
 
-	@GetMapping(value = "/{cozinhaId}")
+	@GetMapping("/{cozinhaId}")
 	private ResponseEntity<Cozinha> porId(@PathVariable Long cozinhaId) {
 		Cozinha cozinha = cozinhaService.porId(cozinhaId);
 
@@ -45,7 +45,7 @@ public class CozinhaController {
 	}
 
 	@PostMapping
-	@ResponseStatus(value = HttpStatus.CREATED)
+	@ResponseStatus(HttpStatus.CREATED)
 	public Cozinha salvar(@RequestBody Cozinha cozinha) {
 		return cozinhaService.salvar(cozinha);
 	}
@@ -60,13 +60,14 @@ public class CozinhaController {
 			cozinhaWorkBase = salvar(cozinhaWorkBase);
 			return ResponseEntity.ok(cozinhaWorkBase);
 		}
+
 		return ResponseEntity.notFound().build();
 	}
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Cozinha> remover(@PathVariable Long id) {
+	@DeleteMapping("/{cozinhaid}")
+	public ResponseEntity<Cozinha> remover(@PathVariable Long cozinhaid) {
 		try {
-			cozinhaService.remover(id);
+			cozinhaService.remover(cozinhaid);
 
 			return ResponseEntity.noContent().build();
 

@@ -9,38 +9,38 @@ import org.springframework.stereotype.Service;
 
 import br.com.guimassolucoes.guimasfood.domain.exception.EntidadeEmUsoException;
 import br.com.guimassolucoes.guimasfood.domain.exception.EntidadeNaoEncontradaException;
-import br.com.guimassolucoes.guimasfood.domain.model.Cozinha;
-import br.com.guimassolucoes.guimasfood.domain.repository.CozinhaRepository;
+import br.com.guimassolucoes.guimasfood.domain.model.Estado;
+import br.com.guimassolucoes.guimasfood.domain.repository.EstadoRepository;
 
 @Service
-public class CozinhaService {
+public class EstadoService {
 
 	@Autowired
-	CozinhaRepository cozinhaRepository;
+	EstadoRepository estadoRepository;
 
-	public List<Cozinha> todas() {
-		return cozinhaRepository.todas();
+	public List<Estado> todos() {
+		return estadoRepository.todos();
 	}
 
-	public Cozinha porId(Long id) {
-		return cozinhaRepository.porId(id);
+	public Estado porId(Long id) {
+		return estadoRepository.porId(id);
 	}
 
-	public Cozinha salvar(Cozinha cozinha) {
-		return cozinhaRepository.salvar(cozinha);
+	public Estado salvar(Estado estado) {
+		return estadoRepository.salvar(estado);
 	}
 
-	public void remover(Long id) {
+	public void remover(Long estadoId) {
 		try {
-			cozinhaRepository.remover(id);
+			estadoRepository.remover(estadoId);
 
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntidadeNaoEncontradaException(
-					String.format("Não existe um cadastro de cozinha com o código %d", id));
+					String.format("Não existe um cadastro de estado com o código %d", estadoId));
 
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(
-					String.format("Cozinha de código %d não pode ser removida, porque está em uso", id));
+					String.format("Estado de código %d não pode ser removida, porque está em uso", estadoId));
 		}
 	}
 

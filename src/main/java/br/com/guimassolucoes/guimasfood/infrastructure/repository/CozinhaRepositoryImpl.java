@@ -39,8 +39,8 @@ public class CozinhaRepositoryImpl implements CozinhaRepository {
 
 	@Transactional
 	@Override
-	public void remover(Long id) {
-		Cozinha cozinha = porId(id);
+	public void remover(Long cozinhaId) {
+		Cozinha cozinha = porId(cozinhaId);
 
 		if (cozinha == null) {
 			throw new EmptyResultDataAccessException(1);
