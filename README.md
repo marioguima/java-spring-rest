@@ -78,7 +78,7 @@ Que é composto por duas partes, a Requisição e a Resposta
 
 > Composição da requisição
 ```
-[MÉTODO] [URI] PROTOCOLO[http]/[Versão]    POST  /produtos  HTTP/1.1
+Método URI PROTOCOLO[http]/[Versão]    POST  /produtos  HTTP/1.1
                                            
 [Cabeçalhos]                               Content-Type: application/json
 
@@ -94,7 +94,7 @@ Que é composto por duas partes, a Requisição e a Resposta
 > Composição da resposta
 
 ```
-PROTOCOLO[http]/[Versão] [STATUS]      HTTP/1.1 201 Created
+PROTOCOLO http/Versão STATUS           HTTP/1.1 201 Created
 [Cabeçalhos]                           Content-Type: application/json
 
 [CORPO/PAYLOAD]                        {

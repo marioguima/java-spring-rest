@@ -29,7 +29,7 @@ public interface CozinhaRepository extends JpaRepository<Cozinha, Long> {
 	 * @param nome
 	 * @return
 	 */
-	public List<Cozinha> findTodasByNomeCozinha(String nome);
+	public List<Cozinha> findTodasByNomeCozinhaContaining(String nome);
 	
 	public Optional<Cozinha> findByNomeCozinha(String nome);
 

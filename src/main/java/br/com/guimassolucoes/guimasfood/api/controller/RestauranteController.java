@@ -68,7 +68,7 @@ public class RestauranteController {
 			Optional<Restaurante> restauranteWorkBase = restauranteService.porId(restauranteId);
 
 			if (restauranteWorkBase.isPresent()) {
-				BeanUtils.copyProperties(restaurante, restauranteWorkBase.get(), "id");
+				BeanUtils.copyProperties(restaurante, restauranteWorkBase.get(), "id", "endereco", "dataCadastro");
 
 				Restaurante restauranteSalvo = restauranteService.salvar(restauranteWorkBase.get());
 				return ResponseEntity.ok(restauranteSalvo);
@@ -111,7 +111,7 @@ public class RestauranteController {
 			ReflectionUtils.setField(field, restauranteDestino, novoValor);
 		});
 	}
-	
+
 	@DeleteMapping("/{restauranteId}")
 	public ResponseEntity<Restaurante> remover(@PathVariable Long restauranteId) {
 		try {
